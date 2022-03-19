@@ -55,7 +55,7 @@ RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/
 	add-apt-repository contrib && \
 	apt-get clean && \
 	apt-get update && \
-	apt-get -y install cuda
+	DEBIAN_FRONTEND=noninteractive apt-get -y install cuda
 
 # Download ffmpeg source
 RUN cd /tmp/build && \
