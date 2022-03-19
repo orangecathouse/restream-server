@@ -63,6 +63,10 @@ RUN cd /tmp/build && \
   tar -zxf ffmpeg-${FFMPEG_VERSION}.tar.gz && \
   rm ffmpeg-${FFMPEG_VERSION}.tar.gz
 
+# NVCC paths
+ENV PATH="/usr/local/cuda/bin:$PATH"
+ENV LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
+
 # Download ffnvcodec and compile
 RUN cd /tmp/build && \
 	git clone https://git.videolan.org/git/ffmpeg/nv-codec-headers.git && \
@@ -104,6 +108,9 @@ RUN cd /tmp/build/ffmpeg-${FFMPEG_VERSION} && \
 # Copy stats.xsl file to nginx html directory and cleaning build files
 RUN cp /tmp/build/nginx-rtmp-module-${NGINX_RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/stat.xsl && \
 	rm -rf /tmp/build
+
+# Remove cuda directories
+RUN rm -rf /usr/local/cuda*
 
 ##### Building the final image #####
 FROM debian:${DEBIAN_VERSION}
